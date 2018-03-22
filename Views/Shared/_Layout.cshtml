@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BẢO MINH WEB APP - @ViewBag.Title</title>
+    @Styles.Render("~/Content/DefaultStyle/")
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <div class="header-top">
+        <div class="">
+            <ul class="list-unstyled d-flex mb-0 py-3 justify-content-around align-content-arround align-items-center">
+                <li>
+                    <a href="/">
+                        <img src="~/Content/images/logo.png" width="80" />
+                    </a>
+                </li>
+                <li class="">
+                    <i class="fas fa-address-card red-text"></i>
+                    <span>26 Tôn Thất Đạm, Phường Nguyễn Thái Bình, Quận 1</span>
+                </li>
+                <li class="">
+                    <i class="fas fa-clock red-text"></i>
+                    <span>Thứ 2 - Thứ 6 - 8:00 am - 17:00 pm</span>
+                </li>
+                <li class="">
+                    <i class="fa fa-phone red-text"></i>
+                    <span>1800-588812</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    @if (Session["User"]!=null)
+    {
+        Html.RenderPartial("_HeaderUser");
+    }
+    else
+    {
+        Html.RenderPartial("_HeaderGuest");
+        //Html.RenderPartial("_HeaderUser");
+    }
+
+
+    <main class="container-fluid" id="main">
+        @RenderBody()
+    </main>
+
+    <footer class="w-100 bg-danger text-white py-3 text-center footer-bottom">
+        <i class="fas fa-angle-double-down"></i> Tổng công ty cổ phần Bảo Minh - @DateTime.Now.Year
+    </footer>
+
+    @Scripts.Render("~/js/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,445 @@
+﻿/* footer bottom */
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100%;
+    position: relative;
+    letter-spacing: 1px;
+}
+
+
+
+main {
+    padding-top: 46px;
+    padding-bottom: 110px;
+    /*Footer's height : 64px + padding more 30px*/
+}
+
+.footer-bottom {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+/*Default*/
+
+::placeholder {
+    color: black !important;
+    font-size: 0.9em !important;
+    font-weight: 300 !important;
+}
+
+/*Describe text*/
+
+h1 span {
+    margin-top: 5px;
+    font-size: 0.75em;
+}
+
+.awesome-header {
+    letter-spacing: 2px;
+    text-shadow: 2px 4px 3px rgba(0, 0, 0, .3);
+}
+
+.border-radius-0 {
+    border-radius: 0px !important;
+}
+
+/*Dropdown menu hover*/
+
+.dropdown-menu {
+    width: 100%;
+}
+
+.navbar .dropdown-menu a {
+    width: 100%;
+}
+
+
+/*Admin Nav*/
+
+.mask {
+    background-color: #00000099;
+    z-index: 2;
+}
+
+.mask-dark {
+    background-color: #00000099;
+    z-index: 2;
+}
+
+.admin-nav-wrapper {
+    width: 100%;
+    position: absolute;
+}
+
+.admin-nav {
+    /*Chiều dài top nav là 56, cái này fixed luôn nên phải padding thêm */
+    margin-left: -300px;
+}
+
+.dropdown-admin {
+    transition: margin 0.2s ease-in-out;
+}
+
+/* table.table a:hover,
+ul.list-unstyled li a:hover, */
+
+/*Nice display text in group link and transition text-decoration*/
+.table{
+    white-space:nowrap;
+}
+
+tr:last-of-type td{
+    font-weight:400;
+}
+
+table.table a {
+    margin: 0;
+    color: #b2b2b2;
+}
+
+table.table a:hover {
+    
+    text-decoration: underline;
+}
+
+.table a,
+.table-row-filter a,
+.list-group-link {
+    transition: color .2s ease, border-color .3s ease;
+    border-bottom: 1px solid transparent !important;
+    padding-bottom: 4px;
+}
+
+.table-non-row-filter tr td:last-of-type a:hover,
+.table-row-filter tr:not(:first-of-type) td:last-of-type a:hover {
+    /*First action*/
+    border-color: white !important;
+}
+
+.table-row-filter tr:first-of-type td:last-of-type a:hover {
+    /*First action*/
+    border-color: #212529 !important;
+}
+
+.list-group-link:hover,
+.list-group-link:active {
+    color: #ec407a !important;
+    border-color: #1976D2 !important;
+}
+
+/*Table row hover*/
+
+
+
+/*Nice color and bg transition*/
+
+table.table-hover tr,
+.select2-results__option,
+/*Select 2 hover*/
+.dropdown-item,
+/*Drop down button*/
+.dropdown-menu a {
+    transition: color .1s linear, background-color .2s linear !important;
+}
+
+/* Table design : action */
+
+.table-row-filter tr:first-of-type td {
+    vertical-align: bottom;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+    .table-row-filter tr:first-of-type td:last-of-type {
+        /*Action*/
+        vertical-align: middle;
+    }
+
+/*Pagination fix*/
+
+.page-item {
+    display: flex;
+    align-items: center;
+}
+
+/*Material tab*/
+
+.nav-tabs > li > a {
+    border: none !important;
+    transition: color .2s ease;
+    color: #666;
+}
+
+/*Nice tab design since there is too many color */
+
+.nav-tabs .nav-link.active {
+    color: #495057;
+    background-color: #2BBBAD !important;
+    color: white !important;
+}
+
+.nav-tabs .nav-link {
+    color: #495057;
+    background-color: transparent !important;
+}
+
+.nav-tabs > li > a:hover {
+    color: #4285F4 !important;
+    border-color: #ec407a !important;
+}
+
+.nav-tabs > li > a.show {
+    color: #33b5e5 !important;
+}
+
+
+.tab-pane {
+    border: solid #dfdfdf;
+    border-radius: 2px;
+    border-width: 0px 1px 1px 1px;
+}
+
+.table-info-padding th:first-of-type,
+.table-info-padding td:first-of-type {
+    padding-left: 0px;
+}
+
+.md-pink input[type=search]:focus:not([readonly]) {
+    border-bottom: 1px solid #1891be !important;
+    box-shadow: 0 1px 0 0 #1891be !important;
+}
+
+.pagination.pg-teal .active .page-link {
+    background-color: #33b5e5 !important;
+}
+
+.list-group-item h1 {
+    font-size: 1.2em;
+    margin-bottom: 0px;
+}
+
+
+input[type=text] {
+    padding-bottom: 7px;
+}
+
+.btn:not(.btn-nav) {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.validation-summary-errors ul {
+    list-style-type: none;
+    padding-left: 0px;
+    padding-bottom: 10px;
+}
+
+.breadcrumb {
+    margin-bottom: 0px;
+}
+
+.bg-primary,
+.bg-danger {
+    background-color: #ff4758 !important;
+}
+
+.navbar.navbar-dark .navbar-nav .nav-item .nav-link {
+    font-size: 1.2em;
+}
+
+.btn {
+    font-size: 14px !important;
+    letter-spacing: 1px !important;
+}
+
+header .header-top {
+    background: #e6e7e8;
+
+}
+
+.red-text {
+    color: #ff707d !important;
+}
+
+ul > li {
+    color: #6c757d !important;
+}
+
+.list-group-item.heading {
+    border-width: 0px 0px 4px 0px;
+    border-color: #d7d7d7;
+    letter-spacing: 2px;
+    padding-bottom: 15px;
+    padding-left: 0px;
+}
+
+.border-0{
+    border:0;
+}
+
+.container{
+    padding-left: 0px;
+    padding-right:0px;
+}
+
+.navbar .dropdown-menu a:hover,
+.dropdown .dropdown-menu .dropdown-item:hover,
+.dropdown .dropdown-menu .dropdown-item:active,
+.dropdown .dropdown-menu .dropdown-item:focus {
+    color: #1d1e1f !important;
+    background-color: #cfcfcf;
+}
+
+/*Loading*/
+#loading{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+}
+
+#loading{
+    font-size:20px;
+}
+
+#loading span{
+    font-size:30px;
+}
+
+tr.notHover:hover,
+tr.notHover {
+    background: white !important;
+
+}
+
+/*Infobox*/
+.info-box div:first-of-type{
+    font-size:20px;
+    color:white;
+    border-radius:2px;
+
+}
+
+.info-box div:last-of-type {
+    color: #6c757d;
+    border: 1px solid #dfdfdf;
+    border-top: 0px;
+    border-radius: 2px;
+    margin-bottom:5px;
+}
+
+.table td{
+    font-weight:400;
+}
+
+.table th{
+    font-weight:500;
+}
+
+table.table-hover tbody tr:hover{
+    background-color:transparent;
+}
+
+.btn.disabled, .btn:disabled {
+    opacity: 0.35;
+}
+
+select {
+    border-radius: 2px;
+    padding: 8px 5px;
+    border-color: #dfdfdf;
+}
+
+.v-select .dropdown-toggle .clear {
+    bottom:6px !important
+
+}
+
+.list-group-filter div{
+    margin-bottom:10px;
+    margin-top:5px;
+}
+
+
+
+
+
+.v-select .dropdown-menu > .highlight > a {
+    background: #cfcfcf !important;
+    color: #6c757d !important;
+}
+
+.form-control-bootstrap {
+    padding: 3px 10px !important;
+    border: 1px solid #cfcfcf !important;
+    margin-top: 0px;
+    box-sizing: border-box !important;
+}
+
+.input-group-prepend{
+    margin:0px !important;
+}
+
+.input-group-prepend button {
+    margin: 0px !important;
+    padding-top: 11px !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    box-shadow: none;
+}
+    
+    
+.calendar {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.calendar input{
+    box-sizing: border-box
+}
+
+.refreshForm{
+    display:none;
+}
+
+.input-group-prepend button.btn-nav {
+    padding-top: 1px !important;
+    z-index:0 !important;
+}
+
+.checkbox-container{
+    max-height: 200px;
+    overflow: auto;
+}
+
+.border-x-0{
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 0px;
+}
+
+.list-group-table{
+    padding:0px !important;
+    border: 0px !important;
+}
+
+.list-group-table table{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    border:0px;
+
+
+}
+
+.modal-dialog{
+    z-index: 9999;
+}

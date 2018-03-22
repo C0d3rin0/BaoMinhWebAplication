@@ -1,0 +1,138 @@
+﻿@helper MakeNavigationHeading(string Content, string Ico, string cssClasses)
+    {
+        <li class="list-group-item heading @cssClasses">
+            <h1 class="">
+                <i class="fas fa-fw @Ico"></i>
+                @Content
+            </h1>
+        </li>
+}
+
+@{
+    ViewBag.Title = "Tìm tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form action="/Home/Index" method="get" id="backHome"></form>
+<form action="/User/Logoff" method="get" id="logoffForm"></form>
+
+<div class="card col-12 p-0" id="app">
+    <ol class="breadcrumb border-radius-0 lighten-2">
+        <li class="breadcrumb-item">
+            @Html.ActionLink("Trang chủ", "", "", null, new { @class = "black-text" })
+        </li>
+        <li class="breadcrumb-item text-muted">
+            Tìm kiếm tài khoản
+        </li>
+    </ol>
+    <div class="card-body m-0">
+        <ul class="list-group mb-4" id="filterDataTable">
+            @MakeNavigationHeading("Lọc tìm kiếm", "fas fa-filter", "text-muted ")
+            <li class="list-group-item d-flex flex-wrap list-group-filter">
+                @*<div class="col-6">
+                    Theo Họ tên nhân viên
+                    <v-select
+                              v-model="ViewModel.HoTen"
+                              :filterable="false"
+                              :options="DanhSachHoTen"
+                              label="Fullname"
+                              v-on:search="HoTenOnSearch">
+                        <template slot="option" slot-scope="option">
+                            <div class="my-2">
+                                Tên :
+                                <b>{{option.Fullname}}</b> -
+                                Email :
+                                <b>{{option.Username}}</b>
+                            </div>
+                        </template>
+                        <span slot="no-options">
+                            Gõ để bắt đầu tìm kiếm họ tên nhân viên
+                        </span>
+                    </v-select>
+                </div>*@
+                <div class="col-12">
+                    Theo Email của nhân viên
+                    <v-select label="Username"
+                              v-model="SelectedUsers"
+                              :filterable="false"
+                              :options="Users"
+                              v-on:search="EmailOnSearch">
+                        <template slot="option" slot-scope="option">
+                            <div class="my-2">
+                                Tên :
+                                <b>{{option.Fullname}}</b> -
+                                Email :
+                                <b>{{option.Username}}</b>
+                            </div>
+                        </template>
+                        <span slot="no-options">
+                            Gõ để bắt đầu tìm kiếm email
+                        </span>
+                    </v-select>
+                </div>
+            </li>
+            <li class="list-group-item d-flex">
+                <button class="btn btn-white ml-auto" v-on:click="CapNhatBoLoc">
+                    <i class="fas fa-sync"></i>
+                    Cập nhật bộ lọc
+                </button>
+            </li>
+        </ul>
+
+        <div id="dataTable">
+            <loading message="Đang tải dữ liệu từ máy chủ"
+                     header="Xin vui lòng chờ trong giây lát"
+                     :isshow="ViewModel.isShowModal">
+            </loading>
+            <ul class="list-group pb-2">
+                @MakeNavigationHeading("Kết quả tìm kiếm", "fas fa-th-list", "text-muted ")
+                <li class="list-group-item list-group-table flex-wrap table-responsive">
+
+                   
+
+                    @*Display lỗi nếu không tìm thấy loading screen*@
+                    <inline-modal header="Không có dữ liệu để hiển thị"
+                                  message="Không tìm thấy dữ liệu nào trường dữ liệu nào khớp với bộ lọc dữ liệu hoặc
+                                            Chưa có tìm trường tìm kiếm trong bộ lọc tìm kiếm được tùy chỉnh"
+                                  isshow="ViewModel.data.length>0">
+                    </inline-modal>
+
+                    @*Table*@
+
+
+                    <datatable class="mt-3" :columns="['Hành động','Email','Họ tên']"
+                               :isshow="ViewModel.data.length>0"
+                               is-show-action="false">
+                        <template v-for="(value,key) in ViewModel.data">
+                            <edit-row v-model="ViewModel.data[key]"></edit-row>
+                        </template>
+                    </datatable>
+                </li>
+                <li class="list-group-item d-flex" v-if="ViewModel.isEmpty!=true">
+                    <div class="">
+                        Số dòng trên một trang
+                        <select class="ml-1" v-model="ViewModel.numItemsPerPage">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                        </select>
+                    </div>
+
+                    <datatable-pagination :is-first-page="ViewModel.isFirstPage"
+                                          :is-last-page="ViewModel.isLastPage"
+                                          v-on:emit-get-prev="getMixin(GetPaginationType.Prev)"
+                                          v-on:emit-get-next="getMixin(GetPaginationType.Next)">
+                    </datatable-pagination>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/js/searchUser")
+}
+
+
+
+

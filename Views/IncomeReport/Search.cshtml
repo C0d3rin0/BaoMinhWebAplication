@@ -1,0 +1,245 @@
+﻿
+
+@{
+    /**/
+    ViewBag.Title = "Truy vấn doanh thu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@helper MakeNavigationHeading(string Content, string Ico, string cssClasses)
+{
+        <li class="list-group-item heading @cssClasses">
+            <h1 class="">
+                <i class="fas fa-fw @Ico"></i>
+                @Content
+            </h1>
+        </li>
+}
+
+@section scripts{
+    @Scripts.Render("~/js/IncomeReport")
+}
+
+@section styles{
+    @Styles.Render("~/css/IncomeReport")    
+}
+
+<div class="card col-12 p-0" id="app">
+    <ol class="breadcrumb border-radius-0 lighten-2">
+        <li class="breadcrumb-item">
+            @Html.ActionLink("Trang chủ", "", "", null, new { @class = "black-text" })
+        </li>
+        <li class="breadcrumb-item text-muted">
+            Truy vấn doanh thu
+        </li>
+    </ol>
+    <div class="card-body m-0">
+        <ul class="list-group mb-4" id="filterDataTable">
+            @MakeNavigationHeading("Lọc tìm kiếm", "fas fa-filter", "text-muted ")
+            <li class="list-group-item d-flex flex-wrap list-group-filter">
+                <div class="col-6">
+                    Theo tên hoặc mã chi nhánh
+                    <v-select multiple
+                              v-model="ViewModel.DanhSachChiNhanh"
+                              :options="initData.DanhSachChiNhanh">
+                        <template slot="option" slot-scope="option">
+                            <div class="my-2">
+                                Tên :
+                                <b>{{option.name.toUpperCase()}}</b> -
+                                Mã :
+                                <b>{{option.value}}</b>
+                            </div>
+
+                        </template>
+                        <span slot="no-options">
+                            Không tìm thấy chi nhánh nào
+                        </span>
+                    </v-select>
+                </div>
+                @*<div class="col-6">
+                        <tree :multiple="true"
+        :options="options"
+        placeholder="Chọn nghiệp vụ RISKTYPE / PRENIMIUM CLASS"
+        v-model="ViewModel.DanhSachNghiepVu"
+        ref="tree">
+
+                        </tree>
+                    </div>*@
+                <div class="col-6">
+                    Theo Họ tên khách hàng
+                    @*<v-select multiple
+                              v-model="ViewModel.DanhSachHoTenKhachHang"
+                              :filterable="false"
+                              :options="DanhSachHoTen"
+                              v-on:search="HoTenOnSearch">
+                        <template slot="option" slot-scope="option">
+                            <div class="my-2">
+                                Họ :
+                                <b>{{option.surName}}</b> <br />
+                                Tên lót :
+                                <b>{{option.givName}}</b>
+                            </div>
+                        </template>
+                        <span slot="no-options">
+                            Gõ để bắt đầu tìm kiếm họ tên khách hàng
+                        </span>
+                    </v-select>*@
+                    <div>
+                        <input class="form-control" v-model="ViewModel.HoTenKhachHang" />
+                    </div>
+                    
+                </div>
+                <div class="col-6">
+                    Theo Ngày hiệu lực đơn từ
+                    <datepicker-single v-model="ViewModel.NgayHieuLucTu"></datepicker-single>
+                </div>
+                <div class="col-6">
+                    Theo Ngày hiệu lực đơn Đến
+                    <datepicker-single v-model="ViewModel.NgayHieuLucDen"></datepicker-single>
+                </div>
+
+                @*<div class="col-6">
+            Theo tên hoặc mã phòng ban
+            <v-select multiple
+                      v-model="ViewModel.DanhSachPhongBan"
+                      :filterable="false"
+                      :options="DanhSachPhongBan"
+                      v-on:search="PhongBanOnSearch">
+                <template slot="option" slot-scope="option">
+                    <div class="my-2">
+                        Tên :
+                        <b>{{option.name}}</b> -
+                        Mã :
+                        <b>{{option.value}}</b>
+                    </div>
+                </template>
+                <span slot="no-options">
+                    Gõ để bắt đầu tìm kiếm phòng ban
+                </span>
+            </v-select>
+        </div>*@
+                <div class="col-12">
+                    <group-checkbox ref="XE" v-model="ViewModel.DanhSachNghiepVu" :data="initData.DanhSachNvXE">Nghiệp vụ xe</group-checkbox>
+                    <group-checkbox ref="HH" v-model="ViewModel.DanhSachNghiepVu" :data="initData.DanhSachNvHH">Nghiệp vụ hàng hải</group-checkbox>
+                    <group-checkbox ref="KT" v-model="ViewModel.DanhSachNghiepVu" :data="initData.DanhSachNvKT">Nghiệp vụ kĩ thuật</group-checkbox>
+                </div>
+                @*<div class="col-6">
+            Theo loại đại lý
+            <v-select multiple
+                      v-model="ViewModel.DanhSachLoaiDaiLy"
+                      :filterable="false"
+                      :options='initData.DanhSachLoaiDaiLy'
+                      label="value">
+
+            </v-select>
+        </div>
+        <div class="col-6">
+            Theo mã đại lý
+            <v-select multiple
+                      v-model="ViewModel.DanhSachMaDaiLy"
+                      :filterable="false"
+                      :options="DanhSachMaDaiLy"
+                      v-on:search="MaDaiLyOnSearch"
+                      label="value">
+                <span slot="no-options">
+                    Gõ để bắt đầu tìm kiếm theo mã đại lý
+                </span>
+            </v-select>
+        </div>*@
+
+            </li>
+            <li class="list-group-item d-flex">
+                <button class="btn btn-white ml-auto" v-on:click="CapNhatBoLoc">
+                    <i class="fas fa-sync"></i>
+                    Cập nhật bộ lọc
+                </button>
+            </li>
+        </ul>
+
+        <div id="dataTable">
+            <loading message="Đang tải dữ liệu từ máy chủ"
+                     header="Xin vui lòng chờ trong giây lát"
+                     :isshow="ViewModel.isShowModal">
+            </loading>
+            <ul class="list-group pb-2">
+                @MakeNavigationHeading("Kết quả tìm kiếm", "fas fa-th-list", "text-muted ")
+
+                <li class="list-group-item flex-wrap " v-if="ViewModel.isEmpty!=true">
+                    <div class="ml-auto">
+                        <a href="IncomeReport/Down" class="btn btn-white" >Tải excel</a>
+                    </div>
+                </li>
+                <li class="list-group-item flex-wrap table-responsive">
+
+                    <small class="mb-2 d-block">
+                        <i class="fas fa-info-circle fa-fw"></i>
+                        Mẹo : Nếu dùng máy tính click vào đầu bảng (tựa đề) rồi sử dụng phím mũi tên để cuộn giúp di chuyển đễ dàng hơn
+                    </small>
+
+                    <small class="mb-2 d-block">
+                        <i class="fas fa-book fa-fw"></i>
+                        Hướng dẫn : click vào dòng để xem chi tiết của dòng dữ liệu ấy
+                    </small>
+
+                    @*Display lỗi nếu không tìm thấy loading screen*@
+                    <inline-modal header="Không có dữ liệu để hiển thị"
+                                  message="Không tìm thấy dữ liệu nào trường dữ liệu nào khớp với bộ lọc dữ liệu hoặc
+                                            Chưa có tìm trường tìm kiếm trong bộ lọc tìm kiếm được tùy chỉnh"
+                                  :isshow="ViewModel.data.length > 0 && ViewModel.data[0].length!=0">
+                    </inline-modal>
+
+                    @*Table*@
+                    <datatable :columns="getAllColumnsName"
+                               :isshow="ViewModel.isEmpty!=true"
+                               is-show-action="false">
+                        <template v-for="(row,index) in ViewModel.data" v-if="ViewModel.data">
+                            <tr v-on:click="toggleArrIsShowDetail(index,row['MÃ ĐƠN'])">
+                                <td v-for="val in row">
+                                    {{val}}
+                                </td>
+                            </tr>
+                            <tr class="notHover">
+                                <td :colspan="getAllColumnsName.length" v-if="ViewModel.arrIsShowDetail[index]==true">
+                                    <div>
+                                        <div v-if="ViewModel.detailsData[index]!=null && ViewModel.detailsData[index].length>0">
+                                            <table class="table table-bordered mb-0">
+                                                <tr>
+                                                    <th v-for="column in Object.keys(ViewModel.detailsData[index][0])">
+                                                        {{column}}
+                                                    </th>
+                                                </tr>
+                                                <tr v-for="row in ViewModel.detailsData[index]">
+                                                    <td v-for="val in row">
+                                                        {{val}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </datatable>
+                </li>
+                <li class="list-group-item d-flex" v-if="ViewModel.isEmpty!=true">
+                    <div class="">
+                        Số dòng trên một trang
+                        <select class="ml-1" v-model="ViewModel.numItemsPerPage">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                        </select>
+                    </div>
+
+                    <datatable-pagination :is-first-page="ViewModel.isFirstPage"
+                                          :is-last-page="ViewModel.isLastPage"
+                                          v-on:emit-get-prev="getPrev"
+                                          v-on:emit-get-next="getNext">
+                    </datatable-pagination>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,129 @@
+﻿<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-danger flex-wrap">
+        <button class="navbar-toggler px-1 admin-nav-toggler" type="button" data-toggle="collapse">
+            <i class="fas fa-ellipsis-v"></i>
+        </button>
+        @*<div class="navbar-header">
+            <a class="navbar-brand" href="#">Web Application</a>
+        </div>*@
+        <button class="navbar-toggler px-1" type="button" data-toggle="collapse" id="NormalNavToggler" data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav text-left text-md-center nav">
+                @if (
+                    (
+                        (BaoMinhWebApplication.Models.TaiKhoan)Session["User"]
+                    ).LaAdmin == true
+                ) {
+
+                    <li class="nav-item">
+                        <a class="nav-link admin-nav-toggler waves-effect waves-light" href="javascript:void(0);">
+                            <i class="fas fa-cog"></i>
+                            Quản trị
+                        </a>
+                    </li>
+                }
+
+
+
+                    
+                <li class="dropdown nav-item">
+                    <a class="dropdown-toggle nav-link waves-effect waves-light" data-toggle="dropdown" href="#">
+                        <i class="fas fa-search "></i>
+                        Truy vấn
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/IncomeReport/Search" class=" waves-effect waves-light">
+                                <i class="fas fa-dollar-sign" fa-fw></i>
+                                Doanh thu
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class=" waves-effect waves-light">
+                                <i class="fas fa-balance-scale" fa-fw></i>
+                                Bồi thường
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right ml-auto">
+                <li class="nav-item  ">
+                    <a class="nav-link  waves-effect waves-light" href="javascript:void(0);">
+                        <i class="fas fa-user"></i>
+                        Hi, @{
+
+                            string Email = ((BaoMinhWebApplication.Models.TaiKhoan)Session["User"]).TenDangNhap;
+                            System.Net.Mail.MailAddress addr = new System.Net.Mail.MailAddress(Email);
+
+                        }
+                        @Html.Raw(addr.User)
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a class="nav-link waves-effect waves-light" href="/User/Logoff">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Đăng xuất
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+
+    <!-- Admin pagination -->
+    <div class="admin-nav-wrapper">
+        <div class="admin-nav d-inline-block" style="margin-left: -300px;">
+            <nav class="mt-2" id="adminNav">
+                <div class="d-inline-block dropdown dropdown-admin" style="">
+                    <button class="btn btn-cyan dropdown-toggle " type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user-circle fa-2x fa-fw"></i>
+                        Tài khoản
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/User/Search">
+                            <i class="fas fa-search"></i>
+                            Tìm tài khoản
+                        </a>
+                        <a class="dropdown-item" href="/User/Create">
+                            <i class="fas fa-edit"></i>
+                            Tạo tài khoản
+                        </a>
+                    </div>
+                </div>
+
+                <div class="dropdown dropdown-admin">
+                    <button class="btn btn-cyan dropdown-toggle waves-effect waves-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-users fa-2x fa-fw"></i>
+                        Nhóm tài khoản
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/Group/Search">
+                            <i class="fas fa-search"></i>
+                            Tìm nhóm tài khoản
+                        </a>
+                        <a class="dropdown-item" href="/Group/Create">
+                            <i class="fas fa-edit"></i>
+                            Tạo nhóm tài khoản
+                        </a>
+                    </div>
+                </div>
+                @*<div class="d-inline-block dropdown-admin">
+                    <button class="btn btn-cyan waves-effect waves-light">
+                        <i class="fas fa-cog fa-2x fa-fw"></i>
+                        Cài đặt hệ thống
+                    </button>
+                </div>*@
+            </nav>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7db23d337a8446fda46a0ab8dca598f5" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="DevDBModel.Nhom" Width="1.5" PointX="0.75" PointY="2.5" />
+        <EntityTypeShape EntityType="DevDBModel.QuyenTai_NhomThuocChiNhanh" Width="1.5" PointX="6.875" PointY="6.75" />
+        <EntityTypeShape EntityType="DevDBModel.QuyenXem_NhomThuocChiNhanh" Width="1.5" PointX="6.875" PointY="3.25" />
+        <EntityTypeShape EntityType="DevDBModel.NhomThuocChiNhanh" Width="1.5" PointX="5.125" PointY="2.875" />
+        <EntityTypeShape EntityType="DevDBModel.PQDONVI_" Width="1.5" PointX="2.875" PointY="0.5" />
+        <AssociationConnector Association="DevDBModel.FK_NhomThuocChiNhanh_Nhom" />
+        <AssociationConnector Association="DevDBModel.FK_NhomThuocChiNhanh_NhomThuocChiNhanh1" />
+        <AssociationConnector Association="DevDBModel.FK_NhomThuocChiNhanh_PQDONVI_" />
+        <AssociationConnector Association="DevDBModel.FK_QuyenTai_NhomThuocChiNhanh_NhomThuocChiNhanh" />
+        <AssociationConnector Association="DevDBModel.FK_QuyenXem_NhomThuocChiNhanh_NhomThuocChiNhanh" />
+        <EntityTypeShape EntityType="DevDBModel.TaiKhoan" Width="1.5" PointX="3" PointY="6.375" />
+        <AssociationConnector Association="DevDBModel.TaiKhoanThuocNhom" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

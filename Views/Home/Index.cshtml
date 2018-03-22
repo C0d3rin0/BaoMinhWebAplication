@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Trang chủ";
+}
+
+@helper MakeNavigationButton(string Content, string Icon, string Controller)
+{
+        <a class=" text-primary list-group-item list-group-item-action waves-effect waves-light d-flex flex-wrap"
+           href='@Url.Action("Search",Controller)'>
+            <span class="text-muted col-12 col-md-6 p-3">
+                <i class="@Icon"></i>
+                @Content
+            </span>
+        </a>
+}
+
+@helper MakeNavigationHeading(string Content,string Ico,string cssClasses)
+    {
+        <li class="list-group-item heading @cssClasses">
+            <h1 class="">
+                <i class="fas fa-fw @Ico"></i>
+                @Content
+            </h1>
+        </li>
+    }
+
+<div class="card container">
+    <ol class="breadcrumb border-radius-0 lighten-2">
+        <li class="breadcrumb-item">
+            @Html.ActionLink("Trang chủ", "Index", "Home", null, new { @class = "black-text" })
+        </li>
+    </ol>
+    <div class="card-body m-0">
+        <ul class="list-group mb-4">
+            @MakeNavigationHeading("Truy vấn", "fas fa-search", "text-muted ")
+            @MakeNavigationButton("Doanh thu", "fas fa-dollar-sign fa-fw", "IncomeReport")
+            @MakeNavigationButton("Bồi thường", "fas fa-balance-scale", "CompensateReport")
+        </ul>
+
+        <ul class="list-group">
+            @MakeNavigationHeading("Quản trị", "fas fa-lock", "text-muted ")
+            @MakeNavigationButton("Tài khoản", "fas fa-user", "User")
+            @MakeNavigationButton("Nhóm tài khoản", "fas fa-users", "Group")
+            @*@MakeNavigationButton("Chi nhánh", "fas fa-code-branch", "Affliations")*@
+        </ul>
+    </div>
+</div>

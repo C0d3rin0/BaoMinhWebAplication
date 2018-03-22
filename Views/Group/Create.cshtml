@@ -1,0 +1,219 @@
+﻿
+@{
+    ViewBag.Title = "Tạo nhóm tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@helper MakeNavigationHeading(string Content, string Ico, string cssClasses)
+    {
+        <li class="list-group-item heading @cssClasses">
+            <h1 class="">
+                <i class="fas fa-fw @Ico"></i>
+                @Content
+            </h1>
+        </li>
+}
+
+@section scripts{
+    @Scripts.Render("~/js/CreateGroup");
+}
+
+
+
+<form action="/Group/Search" method="get" id="refreshForm"></form>
+
+<div class="card container px-0" id="app">
+    <form id="app">
+
+        <modal id="addAffiliationModal">
+            <v-select slot="body"
+                      v-model="addAffiliationModel.selectedAffiliation"
+                      :options="addAffiliationModel.affiliations">
+                <template slot="option" slot-scope="option">
+                    <div class="my-2">
+                        Tên :
+                        <b>{{option.name.toUpperCase()}}</b> -
+                        Mã :
+                        <b>{{option.value}}</b>
+                    </div>
+
+                </template>
+                <span slot="no-options">
+                    Không tìm thấy chi nhánh nào
+                </span>
+            </v-select>
+            <button 
+                    slot="button"
+                    type="button" 
+                    class="btn btn-white" 
+                    v-on:click="addAffiliationToUser(addAffiliationModel.selectedAffiliation)">
+            Thêm chi nhánh vào nhóm tài khoản</button>
+        </modal>
+
+        <modal id="removeAffiliationModal">
+            <div slot="body">Bạn có muốn xóa chi nhánh {{removeAffiliation.label}}</div>
+            <button slot="button"
+                    type="button"
+                    class="btn btn-white"
+                    v-on:click="confirmRemoveAffiliation()">
+                Đồng ý
+            </button>
+        </modal>
+     
+
+        <!---->
+        <ol class="breadcrumb border-radius-0 lighten-2 mb-0">
+            <li class="breadcrumb-item">
+                <a class="black-text" href="#">
+                    Trang chủ
+                </a>
+            </li>
+            <li class="breadcrumb-item active">
+                Tạo nhóm tài khoản
+            </li>
+        </ol>
+        <div class=" m-0 mb-2 px-0">
+            <div class=" px-4 pt-2">
+                <div class="list-group">
+                    <div class="list-group-item heading border-0 text-muted">
+                        <h1 class="">
+                            <i class="fas fa-keyboard"></i>
+                            Nhập thông tin nhóm tài&nbsp;khoản
+                        </h1>
+                    </div>
+
+
+
+                    <div class="col-12 mt-2 mb-4 px-0 mx-0">
+                        <inline-modal :header="ResultViewModel.header"
+                                      :message="ResultViewModel.message"
+                                      :isshow="ResultViewModel.isShowModal==false">
+                        </inline-modal>
+                    </div>
+
+                    <div class="col-12 md-form pl-0">
+                        <label for="form2">Tên nhóm</label>
+                        <input type="text" class="form-control px-0" v-model="ViewModel.name">
+                    </div>
+
+                </div>
+                <div class="list-group mb-4">
+
+                    <div class="list-group-item heading border-0 pb-0 text-muted">
+                        <h1 class="d">
+                            <i class="fas fa-search-plus"></i>
+                            Chọn tài khoản
+                            <br>
+                            <span class="mb-0">Click để tìm và thêm tài khoản (bằng Email)</span>
+                        </h1>
+                    </div>
+
+                    <div class="py-2">
+                        <v-select multiple
+                                  v-model="SelectedUsers"
+                                  :filterable="false"
+                                  :options="Users"
+                                  value="Id"
+                                  label="Username"
+                                  v-on:search="UserEmailOnSearch">
+                            <template slot="option" slot-scope="option">
+                                <div>
+                                    <b>Họ tên : </b> {{option.Fullname}} <br />
+                                    <b>Email : </b> {{option.Username}}
+                                </div>
+                            </template>
+                            <span slot="no-options">
+                                Gõ để bắt đầu tìm kiếm tài khoản bằng Email
+                            </span>
+                        </v-select>
+
+                    </div>
+                    <ul class="list-group mt-3 mb-4">
+
+                        <li class="list-group-item heading text-muted">
+                            <h1 class="d">
+                                <i class="fas fa-search-plus"></i>
+                                Phân quyền
+                            </h1>
+                        </li>
+
+
+                        <li class="list-group-item py-3">
+                            <div class="ml-auto">
+                                <button type="button" class="btn btn-white" data-toggle="modal" data-target="#addAffiliationModal">Thêm chi nhánh</button>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            @*<inline-modal header="Nhóm tài khoản này chưa được cấp quyền nào"
+                                     message="Để cấp quyền chọn thêm chi nhánh và cấp các quyền tương ứng"
+                                    :isshow="ViewModel.affiliationsWithPermision.length!=0"
+                                     class="py-2">
+                            </inline-modal>
+
+                            *@
+                            <datatable :columns="['hành động','chi nhánh','Được xem','Được tải']"
+                                       :isshow="Object.keys(affiliationsWithPermision).length>0"
+                                       is-show-action="true"
+                                       class="mt-2">
+
+                                <template>
+                                    <tr v-for="affiliationWithPermision in affiliationsWithPermision">
+                                        <td>
+                                            <a href="javascript:void(0);" v-on:click="askForRemoveAffiliation(affiliationWithPermision.affiliation)">
+                                                <i class="fas fa-trash fa-fw"></i>
+                                                Xóa
+                                            </a>
+                                        </td>
+                                        <td>{{affiliationWithPermision.affiliation.label}}</td>
+                                        <td>
+                                            <div>
+                                                <label>
+                                                    <input type="checkbox" value="0" v-model="affiliationWithPermision.searchPermision" />
+                                                    Xe
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label>
+                                                    <input type="checkbox" value="1" v-model="affiliationWithPermision.searchPermision" />
+                                                    Hàng hải
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label>
+                                                    <input type="checkbox" value="2" v-model="affiliationWithPermision.searchPermision" />
+                                                    Kĩ thuật
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                
+                                                <label><input type="checkbox" value="1" v-model="affiliationWithPermision.downPermision" /> Xe</label>
+                                            </div>
+                                            <div>
+                                                
+                                                <label><input type="checkbox" value="2" v-model="affiliationWithPermision.downPermision" /> Hàng hải</label>
+                                            </div>
+                                            <div>
+                                                <label><input type="checkbox" value="3" v-model="affiliationWithPermision.downPermision" /> Kĩ thuật</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </datatable>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="list-group-item d-flex">
+            <button class="btn btn-white m-0 ml-auto my-2" type="button" v-on:click="createGroup">
+                <i class="fas fa-paper-plane ml-1"></i>
+                Tạo nhóm tài khoản
+            </button>
+        </div>
+
+    </form>
+</div>
+
+

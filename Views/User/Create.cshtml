@@ -1,0 +1,99 @@
+﻿@section scripts{
+    @Scripts.Render("~/js/createUser")
+}
+
+@{
+    ViewBag.Title = "Tạo tài khoản";
+}
+
+<form action="/User/Search" method="get" id="refreshForm"></form>
+
+<div class="card container px-0">
+    <form id="app">
+        <ol class="breadcrumb border-radius-0 lighten-2 mb-0">
+            <li class="breadcrumb-item">
+                <a class="black-text" href="#">
+                    Trang chủ
+                </a>
+            </li>
+            <li class="breadcrumb-item active">
+                Tạo tài khoản
+            </li>
+        </ol>
+        <div class=" m-0 mb-2 px-0">
+            <div class=" px-4 py-2">
+                <ul class="list-group mb-4">
+                    <li class="list-group-item heading text-muted">
+                        <h1 class="">
+                            <i class="fas fa-keyboard"></i>
+                            Nhập thông tin tài&nbsp;khoản
+                        </h1>
+                    </li>
+
+
+
+                    <li class="list-group-item pt-4 d-flex flex-wrap">
+                        <div class="col-12 my-2 px-0 mx-0">
+                            <inline-modal :header="ResultViewModel.header"
+                                          :message="ResultViewModel.message"
+                                          :isshow="!ResultViewModel.isShowModal==true">
+                            </inline-modal>
+                        </div>
+
+                        <div class="col-6 md-form pl-0">
+                            <label for="form2">Họ tên</label>
+                            <input type="text" class="form-control px-0" v-model="ViewModel.HoTen">
+                        </div>
+
+                        <div class="col-6 md-form pl-0">
+                            <label for="form2">Email</label>
+                            <input type="text" class="form-control px-0" v-model="ViewModel.Email">
+                        </div>
+
+                        <div class="col-6 md-form pl-0">
+                            <label for="form2">Mật khẩu</label>
+                            <input type="password" class="form-control px-0" v-model="ViewModel.MatKhau">
+                        </div>
+
+                        <div class="col-6 md-form pl-0">
+                            <label for="form2">Nhập lại mật khẩu</label>
+                            <input type="password" class="form-control px-0" v-model="ViewModel.NhapLaiMatKhau">
+                        </div>
+                    </li>
+
+                </ul>
+                <ul class="list-group mb-4">
+
+                    <li class="list-group-item heading text-muted">
+                        <h1 class="d">
+                            <i class="fas fa-search-plus"></i>
+                            Chọn nhóm tài khoản
+                            <br>
+                            <span class="mb-0">Click để tìm và thêm nhóm tài khoản</span>
+                        </h1>
+                    </li>
+
+
+                    <li class="list-group-item pt-4">
+                        <div class="md-form">
+                            <v-select multiple v-model="SelectedGroups"
+                                      :options="Groups"
+                                      v-on:search="GroupNameOnSearch">
+                                <span slot="no-options">
+                                    Không tìm thấy nhóm tài khoản nào
+                                </span>
+                            </v-select>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="list-group-item d-flex">
+            <button class="btn btn-white m-0 ml-auto mb-2" type="button" v-on:click="createUser">
+                <i class="fas fa-paper-plane ml-1"></i>
+                Tạo tài khoản
+            </button>
+        </div>
+    </form>
+</div>
+

@@ -1,0 +1,64 @@
+﻿@using BaoMinhWebApplication.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Đăng nhập";
+}
+
+<form id="refreshForm" method="get" action="/">
+    <input type="hidden" name="a" />
+</form>
+
+<div class="d-flex justify-content-center">
+    <div class="col-sm-10 col-md-9 col-lg-8 col-xl-7">
+        <section id="loginForm">
+            <!-- Form login -->
+            
+
+            <div class="card px-0" id="app">
+                <h1 class="modal-header text-center bg-white text-white text-muted">
+                    <span>
+                        <i class="fas fa-sign-in-alt"></i>
+                        Đăng nhập
+                    </span>
+                </h1>
+                <div class="card-body mb-0">
+                    <div>
+                        <inline-modal :header="ResultViewModel.header"
+                                      :message="ResultViewModel.message"
+                                      :isshow="!ResultViewModel.isShowModal==true"
+                                      class="mb-4">
+                        </inline-modal>
+
+                        <loading message="Đang kiểm tra dữ liệu từ máy chủ"
+                                 header="Xin vui lòng chờ trong giây lát"
+                                 :isshow="isShowModalLoading">
+                        </loading>
+                    </div>
+
+                    <div class="md-form mt-1">
+                        <label for="email" class="text-muted">Email</label>
+                        <input type="text" name="email" class="mb2 form-control" v-model="ViewModel.email" />
+                    </div>
+
+                    <div class="md-form">
+                        <label for="password" class="text-muted">Password</label>
+                        <input type="password" name="password" class="mb2 form-control" v-model="ViewModel.password" />
+                    </div>
+                </div>
+
+                <div class="modal-footer text-right">
+                    <button class="btn ml-auto btn-white awesome-header m-0 mt-0" v-on:click="login" type="button">
+                        <i class="fas fa-sign-in-alt ml-1"></i>
+                        Đăng nhập
+                    </button>
+                </div>
+            </div>
+            <!-- Form login -->
+        </section>
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/js/Login")
+}

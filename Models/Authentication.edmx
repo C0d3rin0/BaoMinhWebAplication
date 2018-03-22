@@ -1,0 +1,440 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DevDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Nhom">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ten" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="TrangThai" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NhomThuocChiNhanh">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaChiNhanh" Type="int" Nullable="false" />
+          <Property Name="MaNhom" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PQDONVI$">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="QuyenTai_NhomThuocChiNhanh">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Quyen" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Quyen" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuyenXem_NhomThuocChiNhanh">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Quyen" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Quyen" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaiKhoan">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenDangNhap" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="MatKhau" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Ten" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="TrangThai" Type="bit" Nullable="false" />
+          <Property Name="LaAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaiKhoanThuocNhom">
+          <Key>
+            <PropertyRef Name="MaTaiKhoan" />
+            <PropertyRef Name="MaNhom" />
+          </Key>
+          <Property Name="MaTaiKhoan" Type="int" Nullable="false" />
+          <Property Name="MaNhom" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_NhomThuocChiNhanh_Nhom">
+          <End Role="Nhom" Type="Self.Nhom" Multiplicity="1" />
+          <End Role="NhomThuocChiNhanh" Type="Self.NhomThuocChiNhanh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nhom">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NhomThuocChiNhanh">
+              <PropertyRef Name="MaNhom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NhomThuocChiNhanh_NhomThuocChiNhanh1">
+          <End Role="NhomThuocChiNhanh" Type="Self.NhomThuocChiNhanh" Multiplicity="1" />
+          <End Role="NhomThuocChiNhanh1" Type="Self.NhomThuocChiNhanh" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="NhomThuocChiNhanh">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NhomThuocChiNhanh1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NhomThuocChiNhanh_PQDONVI$">
+          <End Role="PQDONVI$" Type="Self.PQDONVI$" Multiplicity="1" />
+          <End Role="NhomThuocChiNhanh" Type="Self.NhomThuocChiNhanh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PQDONVI$">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NhomThuocChiNhanh">
+              <PropertyRef Name="MaChiNhanh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuyenTai_NhomThuocChiNhanh_NhomThuocChiNhanh">
+          <End Role="NhomThuocChiNhanh" Type="Self.NhomThuocChiNhanh" Multiplicity="1" />
+          <End Role="QuyenTai_NhomThuocChiNhanh" Type="Self.QuyenTai_NhomThuocChiNhanh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhomThuocChiNhanh">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="QuyenTai_NhomThuocChiNhanh">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuyenXem_NhomThuocChiNhanh_NhomThuocChiNhanh">
+          <End Role="NhomThuocChiNhanh" Type="Self.NhomThuocChiNhanh" Multiplicity="1" />
+          <End Role="QuyenXem_NhomThuocChiNhanh" Type="Self.QuyenXem_NhomThuocChiNhanh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhomThuocChiNhanh">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="QuyenXem_NhomThuocChiNhanh">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaiKhoanThuocNhom_Nhom">
+          <End Role="Nhom" Type="Self.Nhom" Multiplicity="1" />
+          <End Role="TaiKhoanThuocNhom" Type="Self.TaiKhoanThuocNhom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nhom">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TaiKhoanThuocNhom">
+              <PropertyRef Name="MaNhom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaiKhoanThuocNhom_TaiKhoan">
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="1" />
+          <End Role="TaiKhoanThuocNhom" Type="Self.TaiKhoanThuocNhom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TaiKhoanThuocNhom">
+              <PropertyRef Name="MaTaiKhoan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DevDBModelStoreContainer">
+          <EntitySet Name="Nhom" EntityType="Self.Nhom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NhomThuocChiNhanh" EntityType="Self.NhomThuocChiNhanh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PQDONVI$" EntityType="Self.PQDONVI$" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuyenTai_NhomThuocChiNhanh" EntityType="Self.QuyenTai_NhomThuocChiNhanh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuyenXem_NhomThuocChiNhanh" EntityType="Self.QuyenXem_NhomThuocChiNhanh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaiKhoan" EntityType="Self.TaiKhoan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaiKhoanThuocNhom" EntityType="Self.TaiKhoanThuocNhom" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_NhomThuocChiNhanh_Nhom" Association="Self.FK_NhomThuocChiNhanh_Nhom">
+            <End Role="Nhom" EntitySet="Nhom" />
+            <End Role="NhomThuocChiNhanh" EntitySet="NhomThuocChiNhanh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NhomThuocChiNhanh_NhomThuocChiNhanh1" Association="Self.FK_NhomThuocChiNhanh_NhomThuocChiNhanh1">
+            <End Role="NhomThuocChiNhanh" EntitySet="NhomThuocChiNhanh" />
+            <End Role="NhomThuocChiNhanh1" EntitySet="NhomThuocChiNhanh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NhomThuocChiNhanh_PQDONVI$" Association="Self.FK_NhomThuocChiNhanh_PQDONVI$">
+            <End Role="PQDONVI$" EntitySet="PQDONVI$" />
+            <End Role="NhomThuocChiNhanh" EntitySet="NhomThuocChiNhanh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuyenTai_NhomThuocChiNhanh_NhomThuocChiNhanh" Association="Self.FK_QuyenTai_NhomThuocChiNhanh_NhomThuocChiNhanh">
+            <End Role="NhomThuocChiNhanh" EntitySet="NhomThuocChiNhanh" />
+            <End Role="QuyenTai_NhomThuocChiNhanh" EntitySet="QuyenTai_NhomThuocChiNhanh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuyenXem_NhomThuocChiNhanh_NhomThuocChiNhanh" Association="Self.FK_QuyenXem_NhomThuocChiNhanh_NhomThuocChiNhanh">
+            <End Role="NhomThuocChiNhanh" EntitySet="NhomThuocChiNhanh" />
+            <End Role="QuyenXem_NhomThuocChiNhanh" EntitySet="QuyenXem_NhomThuocChiNhanh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaiKhoanThuocNhom_Nhom" Association="Self.FK_TaiKhoanThuocNhom_Nhom">
+            <End Role="Nhom" EntitySet="Nhom" />
+            <End Role="TaiKhoanThuocNhom" EntitySet="TaiKhoanThuocNhom" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaiKhoanThuocNhom_TaiKhoan" Association="Self.FK_TaiKhoanThuocNhom_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+            <End Role="TaiKhoanThuocNhom" EntitySet="TaiKhoanThuocNhom" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DevDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Nhoms" EntityType="DevDBModel.Nhom" />
+          <EntitySet Name="QuyenTai_NhomThuocChiNhanh" EntityType="DevDBModel.QuyenTai_NhomThuocChiNhanh" />
+          <EntitySet Name="QuyenXem_NhomThuocChiNhanh" EntityType="DevDBModel.QuyenXem_NhomThuocChiNhanh" />
+          <EntitySet Name="NhomThuocChiNhanh" EntityType="DevDBModel.NhomThuocChiNhanh" />
+          <EntitySet Name="PQDONVI_" EntityType="DevDBModel.PQDONVI_" />
+          <AssociationSet Name="FK_NhomThuocChiNhanh_Nhom" Association="DevDBModel.FK_NhomThuocChiNhanh_Nhom">
+            <End Role="Nhom" EntitySet="Nhoms" />
+            <End Role="NhomThuocChiNhanh" EntitySet="NhomThuocChiNhanh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NhomThuocChiNhanh_NhomThuocChiNhanh1" Association="DevDBModel.FK_NhomThuocChiNhanh_NhomThuocChiNhanh1">
+            <End Role="NhomThuocChiNhanh" EntitySet="NhomThuocChiNhanh" />
+            <End Role="NhomThuocChiNhanh1" EntitySet="NhomThuocChiNhanh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NhomThuocChiNhanh_PQDONVI_" Association="DevDBModel.FK_NhomThuocChiNhanh_PQDONVI_">
+            <End Role="PQDONVI_" EntitySet="PQDONVI_" />
+            <End Role="NhomThuocChiNhanh" EntitySet="NhomThuocChiNhanh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuyenTai_NhomThuocChiNhanh_NhomThuocChiNhanh" Association="DevDBModel.FK_QuyenTai_NhomThuocChiNhanh_NhomThuocChiNhanh">
+            <End Role="NhomThuocChiNhanh" EntitySet="NhomThuocChiNhanh" />
+            <End Role="QuyenTai_NhomThuocChiNhanh" EntitySet="QuyenTai_NhomThuocChiNhanh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuyenXem_NhomThuocChiNhanh_NhomThuocChiNhanh" Association="DevDBModel.FK_QuyenXem_NhomThuocChiNhanh_NhomThuocChiNhanh">
+            <End Role="NhomThuocChiNhanh" EntitySet="NhomThuocChiNhanh" />
+            <End Role="QuyenXem_NhomThuocChiNhanh" EntitySet="QuyenXem_NhomThuocChiNhanh" />
+          </AssociationSet>
+          <EntitySet Name="TaiKhoan" EntityType="DevDBModel.TaiKhoan" />
+          <AssociationSet Name="TaiKhoanThuocNhom" Association="DevDBModel.TaiKhoanThuocNhom">
+            <End Role="Nhom" EntitySet="Nhoms" />
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Nhom">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ten" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="TrangThai" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="NhomThuocChiNhanh" Relationship="DevDBModel.FK_NhomThuocChiNhanh_Nhom" FromRole="Nhom" ToRole="NhomThuocChiNhanh" />
+          <NavigationProperty Name="TaiKhoan" Relationship="DevDBModel.TaiKhoanThuocNhom" FromRole="Nhom" ToRole="TaiKhoan" />
+        </EntityType>
+        <EntityType Name="QuyenTai_NhomThuocChiNhanh">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Quyen" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Quyen" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NhomThuocChiNhanh" Relationship="DevDBModel.FK_QuyenTai_NhomThuocChiNhanh_NhomThuocChiNhanh" FromRole="QuyenTai_NhomThuocChiNhanh" ToRole="NhomThuocChiNhanh" />
+        </EntityType>
+        <EntityType Name="QuyenXem_NhomThuocChiNhanh">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Quyen" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Quyen" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NhomThuocChiNhanh" Relationship="DevDBModel.FK_QuyenXem_NhomThuocChiNhanh_NhomThuocChiNhanh" FromRole="QuyenXem_NhomThuocChiNhanh" ToRole="NhomThuocChiNhanh" />
+        </EntityType>
+        <EntityType Name="NhomThuocChiNhanh">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaChiNhanh" Type="Int32" Nullable="false" />
+          <Property Name="MaNhom" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Nhom" Relationship="DevDBModel.FK_NhomThuocChiNhanh_Nhom" FromRole="NhomThuocChiNhanh" ToRole="Nhom" />
+          <NavigationProperty Name="NhomThuocChiNhanh1" Relationship="DevDBModel.FK_NhomThuocChiNhanh_NhomThuocChiNhanh1" FromRole="NhomThuocChiNhanh" ToRole="NhomThuocChiNhanh1" />
+          <NavigationProperty Name="NhomThuocChiNhanh2" Relationship="DevDBModel.FK_NhomThuocChiNhanh_NhomThuocChiNhanh1" FromRole="NhomThuocChiNhanh1" ToRole="NhomThuocChiNhanh" />
+          <NavigationProperty Name="PQDONVI_" Relationship="DevDBModel.FK_NhomThuocChiNhanh_PQDONVI_" FromRole="NhomThuocChiNhanh" ToRole="PQDONVI_" />
+          <NavigationProperty Name="QuyenTai_NhomThuocChiNhanh" Relationship="DevDBModel.FK_QuyenTai_NhomThuocChiNhanh_NhomThuocChiNhanh" FromRole="NhomThuocChiNhanh" ToRole="QuyenTai_NhomThuocChiNhanh" />
+          <NavigationProperty Name="QuyenXem_NhomThuocChiNhanh" Relationship="DevDBModel.FK_QuyenXem_NhomThuocChiNhanh_NhomThuocChiNhanh" FromRole="NhomThuocChiNhanh" ToRole="QuyenXem_NhomThuocChiNhanh" />
+        </EntityType>
+        <EntityType Name="PQDONVI_">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NhomThuocChiNhanh" Relationship="DevDBModel.FK_NhomThuocChiNhanh_PQDONVI_" FromRole="PQDONVI_" ToRole="NhomThuocChiNhanh" />
+        </EntityType>
+        <Association Name="FK_NhomThuocChiNhanh_Nhom">
+          <End Type="DevDBModel.Nhom" Role="Nhom" Multiplicity="1" />
+          <End Type="DevDBModel.NhomThuocChiNhanh" Role="NhomThuocChiNhanh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nhom">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NhomThuocChiNhanh">
+              <PropertyRef Name="MaNhom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NhomThuocChiNhanh_NhomThuocChiNhanh1">
+          <End Type="DevDBModel.NhomThuocChiNhanh" Role="NhomThuocChiNhanh" Multiplicity="1" />
+          <End Type="DevDBModel.NhomThuocChiNhanh" Role="NhomThuocChiNhanh1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="NhomThuocChiNhanh">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NhomThuocChiNhanh1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NhomThuocChiNhanh_PQDONVI_">
+          <End Type="DevDBModel.PQDONVI_" Role="PQDONVI_" Multiplicity="1" />
+          <End Type="DevDBModel.NhomThuocChiNhanh" Role="NhomThuocChiNhanh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PQDONVI_">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NhomThuocChiNhanh">
+              <PropertyRef Name="MaChiNhanh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuyenTai_NhomThuocChiNhanh_NhomThuocChiNhanh">
+          <End Type="DevDBModel.NhomThuocChiNhanh" Role="NhomThuocChiNhanh" Multiplicity="1" />
+          <End Type="DevDBModel.QuyenTai_NhomThuocChiNhanh" Role="QuyenTai_NhomThuocChiNhanh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhomThuocChiNhanh">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="QuyenTai_NhomThuocChiNhanh">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuyenXem_NhomThuocChiNhanh_NhomThuocChiNhanh">
+          <End Type="DevDBModel.NhomThuocChiNhanh" Role="NhomThuocChiNhanh" Multiplicity="1" />
+          <End Type="DevDBModel.QuyenXem_NhomThuocChiNhanh" Role="QuyenXem_NhomThuocChiNhanh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhomThuocChiNhanh">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="QuyenXem_NhomThuocChiNhanh">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TaiKhoan">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenDangNhap" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MatKhau" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Ten" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Nhom" Relationship="DevDBModel.TaiKhoanThuocNhom" FromRole="TaiKhoan" ToRole="Nhom" />
+          <Property Name="LaAdmin" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="TaiKhoanThuocNhom">
+          <End Type="DevDBModel.Nhom" Role="Nhom" Multiplicity="*" />
+          <End Type="DevDBModel.TaiKhoan" Role="TaiKhoan" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DevDBModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Nhoms">
+            <EntityTypeMapping TypeName="DevDBModel.Nhom">
+              <MappingFragment StoreEntitySet="Nhom">
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="Ten" ColumnName="Ten" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuyenTai_NhomThuocChiNhanh">
+            <EntityTypeMapping TypeName="DevDBModel.QuyenTai_NhomThuocChiNhanh">
+              <MappingFragment StoreEntitySet="QuyenTai_NhomThuocChiNhanh">
+                <ScalarProperty Name="Quyen" ColumnName="Quyen" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuyenXem_NhomThuocChiNhanh">
+            <EntityTypeMapping TypeName="DevDBModel.QuyenXem_NhomThuocChiNhanh">
+              <MappingFragment StoreEntitySet="QuyenXem_NhomThuocChiNhanh">
+                <ScalarProperty Name="Quyen" ColumnName="Quyen" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NhomThuocChiNhanh">
+            <EntityTypeMapping TypeName="DevDBModel.NhomThuocChiNhanh">
+              <MappingFragment StoreEntitySet="NhomThuocChiNhanh">
+                <ScalarProperty Name="MaNhom" ColumnName="MaNhom" />
+                <ScalarProperty Name="MaChiNhanh" ColumnName="MaChiNhanh" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PQDONVI_">
+            <EntityTypeMapping TypeName="DevDBModel.PQDONVI_">
+              <MappingFragment StoreEntitySet="PQDONVI$">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaiKhoan">
+            <EntityTypeMapping TypeName="DevDBModel.TaiKhoan">
+              <MappingFragment StoreEntitySet="TaiKhoan">
+                <ScalarProperty Name="LaAdmin" ColumnName="LaAdmin" />
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="Ten" ColumnName="Ten" />
+                <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+                <ScalarProperty Name="TenDangNhap" ColumnName="TenDangNhap" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TaiKhoanThuocNhom" TypeName="DevDBModel.TaiKhoanThuocNhom" StoreEntitySet="TaiKhoanThuocNhom">
+            <EndProperty Name="TaiKhoan">
+              <ScalarProperty Name="id" ColumnName="MaTaiKhoan" />
+            </EndProperty>
+            <EndProperty Name="Nhom">
+              <ScalarProperty Name="id" ColumnName="MaNhom" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
