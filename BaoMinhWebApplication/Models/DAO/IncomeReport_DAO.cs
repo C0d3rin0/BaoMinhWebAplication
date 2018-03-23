@@ -10,13 +10,45 @@ namespace BaoMinhWebApplication.Models.DAO
 {
     public static class IncomeReport_DAO
     {
-        public static void createPermisionQuery(SqlCommand cmd,int[] Permision, int AffiliationCode)
+        //Nếu mà có quyền returnn true ít nhất có vài quyền
+        //Không return false
+        public static bool createPermisionQuery(SqlCommand cmd,int[] Permisions, int AffiliationCode)
         {
-            if (Permision.Length == 0)
-                return;
+            if (Permisions.Length == 0)
+                return false;
 
             string randomParameterName = (new Guid()).ToString();
-            cmd.CommandText += " AND ( dbo.ZTRNPF$.CNTBRANCH = @randomParameterName AND "; // Should have some code here ???
+            cmd.CommandText += " AND ( dbo.ZTRNPF$.CNTBRANCH = @randomParameterName OR ("; // Should have some code here ???
+
+            string PermisionQuery = "";
+            //Với các permision thêm các nghiệp vụ tương ứng
+            foreach(int Permision in Permisions)
+            {
+                switch(Permision)
+                {
+                    //Xe
+                    case 0:
+                        PermisionQuery += "LEFT([dbo].[ZTRNPF$].CNTTYPE,1) = 'V' OR";
+                        break;
+
+                    //Hàng hải
+                    case 1:
+                        PermisionQuery += "LEFT([dbo].[ZTRNPF$].CNTTYPE,1) = 'M' OR";
+                        break;
+
+                    //Kĩ thuật
+                    case 2:
+                        PermisionQuery += @"
+(LEFT([dbo].[ZTRNPF$].CNTTYPE,1) != 'M'
+OR LEFT([dbo].[ZTRNPF$].CNTTYPE,1) != 'V')";
+                        break;
+                }
+            }
+
+            PermisionQuery = PermisionQuery.Substring(0, PermisionQuery.LastIndexOf("OR"));
+            cmd.CommandText += PermisionQuery;
+
+            return true;
         }
 
 
@@ -144,7 +176,7 @@ ORDER BY dbo.ZTRNPF$.RLDGACCT";
             ICollection<Nhom> authorizedGroups
             )
         {
-
+            //Nếu permission rỗng
 
             string sql =  $@"
 SELECT DISTINCT TOP (@numDisplayItem)
@@ -206,8 +238,13 @@ AND dbo.CHDRPF$.TRANNO = dbo.ZTRNPF$.TRANNO";
             }
 
             /*Mã chi nhánh*/
+            //Đặt cờ nếu có it nhất 1 quyền thì Ok, không có quyền thì return datatable rỗng
+            bool IsHavingAtLeastOnePermision = false;
+
             if (SearchViewModel.DanhSachChiNhanh!=null && SearchViewModel.DanhSachChiNhanh.Count()>0) // Nếu chuỗi rỗng không so sánh
             {
+                
+
                 //List<string> parameters = new List<string>();
                 //for (int i = 0; i <= SearchViewModel.DanhSachChiNhanh.Length-1; i++)
                 //{
@@ -227,10 +264,12 @@ AND dbo.CHDRPF$.TRANNO = dbo.ZTRNPF$.TRANNO";
                         if (SearchViewModel.DanhSachChiNhanh.Where(p=>p.value==affiliationInGroup.id.ToString()).Count()>0)
                         {
                             //Test quyền Quyền xem có không
-                            createPermisionQuery(
+
+                            if (createPermisionQuery(
                                 cmd,
                                 affiliationInGroup.QuyenXem_NhomThuocChiNhanh.Select(p => p.id).ToArray(),
-                                affiliationInGroup.MaChiNhanh);
+                                affiliationInGroup.MaChiNhanh))
+                                IsHavingAtLeastOnePermision = true;
                         }
 
                     }
@@ -248,13 +287,18 @@ AND dbo.CHDRPF$.TRANNO = dbo.ZTRNPF$.TRANNO";
                     foreach(NhomThuocChiNhanh affiliationInGroup in group.NhomThuocChiNhanh)
                     {
                         //Quyền xem
-                        createPermisionQuery(
+                        if(createPermisionQuery(
                                 cmd,
                                 affiliationInGroup.QuyenXem_NhomThuocChiNhanh.Select(p => p.id).ToArray(),
-                                affiliationInGroup.MaChiNhanh);
+                                affiliationInGroup.MaChiNhanh))
+                            IsHavingAtLeastOnePermision = true;
                     } 
                 }
             }
+
+            //Nếu không có quyền nào trả về datatable rỗng
+            if (!IsHavingAtLeastOnePermision)
+                return new DataTable();
 
             ///*Mã Phòng bah*/
             //if (SearchViewModel.DanhSachPhongBan != null && SearchViewModel.DanhSachPhongBan.Count() > 0) // Nếu chuỗi rỗng không so sánh
